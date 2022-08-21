@@ -4,6 +4,7 @@ using System;
 using Lab1ED2;
 using System.Linq;
 using System.Text.Json;
+using System.Text;
 
 string ubicacionArchivo =  @"C:\Users\luis1\OneDrive\Desktop\input.csv";
 System.IO.StreamReader archivo = new System.IO.StreamReader(ubicacionArchivo);
@@ -23,8 +24,6 @@ int cont = 0;
 int conta1 =0;
 int conta2=0;
 int conta3=0;
-
-
 
 
 while ((linea = archivo.ReadLine()) != null)
@@ -102,21 +101,49 @@ while ((linea = archivo.ReadLine()) != null)
     Console.WriteLine("actualizados= " + conta2);
     Console.WriteLine("eliminados=" + conta3);
 string dpi1 = "";
-Console.WriteLine("dpi");
+Console.WriteLine("buscar persona por nombre o dpi");
 dpi1 =Console.ReadLine();
+string salida = "";
 
 foreach (var x in names2.Values)
 {
 
-    if (x.Name == dpi1)
+    if (x.Name == dpi1 || x.dpi==dpi1)
     {
-        Console.WriteLine(x.Name + " " + x.dpi + " " + x.date + " " + x.direccion);
+        Console.WriteLine("{"+"\""+"name" + "\"" +":" + "\"" + x.Name + "\"" + ", " + "\""+"dpi" + "\""+":" + "\"" + x.dpi + "\""+", " + "\""+"dateBirth" + "\""+":" + "\"" + x.date + "\""+", " + "\""+"address" + "\"" +":" + "\"" + x.direccion + "\""+"}");
+        salida+= ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + "}"+"\n");
+       
     }
-
 
 }
 
+string path = @"C:\Users\luis1\OneDrive\Desktop\Lab1ED2\Salidas\"+dpi1+"output.json";
+try
+{
+    // Create the file, or overwrite if the file exists.
+    using (FileStream fs = File.Create(path))
+    {
+        byte[] info = new UTF8Encoding(true).GetBytes(salida);
+        // Add some information to the file.
+        fs.Write(info, 0, info.Length);
+    }
 
+    // Open the stream and read it back.
+    using (StreamReader sr = File.OpenText(path))
+    {
+        string s = "";
+        while ((s = sr.ReadLine()) != null)
+        {
+            Console.WriteLine("Registro agregado");
+        }
+    }
+}
+
+catch (Exception ex)
+{
+    Console.WriteLine("Archivo no Creado");
+}
+    
 
 
 Console.ReadKey();
