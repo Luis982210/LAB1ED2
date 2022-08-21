@@ -13,6 +13,17 @@ namespace Lab1ED2
         public string date { get; set; }
         public string direccion { get; set; }
 
+        public void captura(string name, string dpi, string date, string direccion)
+        { 
+        name=Name; 
+        dpi=dpi;
+        date=date;
+        direccion=direccion;
+
+       
+        }
+
+      
 
     }
 }
