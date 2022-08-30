@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab1ED2
 {
-    internal class Persona
+    class Persona
     {
         public string Name { get; set; }
         public string dpi { get; set; }
@@ -22,8 +22,16 @@ namespace Lab1ED2
 
        
         }
+        public void captura2(string hola)
+        {
+            Console.WriteLine(hola);
 
-      
+
+        }
+
+
+
+
 
     }
 }
