@@ -87,7 +87,8 @@ namespace Lab1ED2
                 }
                 else if (accion == "PATCH")
                 {
-
+                    names2.Remove(dpi);
+                    names2.Add(dpi, new Persona { Name = nombre, dpi = dpi, date = fecha, direccion = direccion });
                     persona.Name = nombre;
                     persona.dpi = dpi;
                     persona.date = fecha;
