@@ -235,8 +235,10 @@ namespace Lab1ED2
                     Console.WriteLine("Archivo no Creado");
                 }
 
-
-
+                CompresorHuff tester = new CompresorHuff(1024);
+                tester.Comprimir(path,"C:\\","DpiComprimido"+dpi1);
+                tester.Descomprimir("C:\\DpiComprimido"+dpi1+".huff","C:\\DpiDescomprimido"+dpi1);
+                
                 Console.ReadKey();
 
                 Console.WriteLine("desea realizar otra busqueda s/n");
