@@ -13,21 +13,9 @@ namespace Lab1ED2
         public string date { get; set; }
         public string direccion { get; set; }
 
-        public void captura(string name, string dpi, string date, string direccion)
-        { 
-        name=Name; 
-        dpi=dpi;
-        date=date;
-        direccion=direccion;
-
-       
-        }
-        public void captura2(string hola)
-        {
-            Console.WriteLine(hola);
-
-
-        }
+        public string compania1 { get; set; }
+        public string compania2 { get; set; }
+        
 
 
 

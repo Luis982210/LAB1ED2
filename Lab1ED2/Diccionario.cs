@@ -8,7 +8,7 @@ namespace Lab1ED2
 {
     public class Diccionario
     {
-        public  string dicc()
+        public string dicc()
         {
             string ubicacionArchivo = @"";
 
@@ -16,12 +16,13 @@ namespace Lab1ED2
             string separador = ",";
             Persona persona;
             persona = new Persona();
-
+            int tamanioFila2=0;
             string salida = "";
             string linea;
             string linea2;
             char[] charsToTrim1 = { '"', '{', '}', ':' };
-            string[] charsToRemove = new string[] { ";", "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}" };
+            string[] fila2;
+            string[] charsToRemove = new string[] { ";", "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies" };
             string[] charsToRemove2 = new string[] { "\"\"", "\"" };
 
             Dictionary<string, Persona> names2 = new Dictionary<string, Persona>();
@@ -31,7 +32,7 @@ namespace Lab1ED2
             int conta1 = 0;
             int conta2 = 0;
             int conta3 = 0;
-
+            string companiastring = "";
 
 
             Console.WriteLine("Estructura de datos para busqueda y de personal");
@@ -42,6 +43,7 @@ namespace Lab1ED2
             Console.WriteLine("Ingrese el path del archivo CSV");
             ubicacionArchivo = Console.ReadLine();
 
+            
 
             foreach (var c in charsToRemove2)
             {
@@ -57,19 +59,24 @@ namespace Lab1ED2
                     linea = linea.Replace(c, string.Empty);
                 }
 
-
+                
                 string[] fila = linea.Split(separador);
                 string accion = fila[0];
                 string nombre = fila[1];
                 string dpi = fila[2];
                 string fecha = fila[3];
                 string direccion = fila[4];
+                string[] compania=linea.Split("[");
+                
 
-
+                string compania1=compania[1];
+                compania1.ToString();
+                companiastring = compania1;
+               
+                
                 if (accion == "INSERT")
                 {
-
-                    names2.Add(dpi, new Persona { Name = nombre, dpi = dpi, date = fecha, direccion = direccion });
+                    names2.Add(dpi, new Persona { Name = nombre, dpi = dpi, date = fecha, direccion = direccion, compania1 = compania1 });
                     persona.Name = nombre;
                     persona.dpi = dpi;
                     persona.date = fecha;
@@ -77,7 +84,12 @@ namespace Lab1ED2
 
                     Console.WriteLine(persona.Name);
                     Console.WriteLine(persona.dpi);
-                  
+                    Console.WriteLine(persona.compania1);
+                    Console.WriteLine(compania1);
+
+
+
+
                     conta1++;
 
 
@@ -88,7 +100,7 @@ namespace Lab1ED2
                 else if (accion == "PATCH")
                 {
                     names2.Remove(dpi);
-                    names2.Add(dpi, new Persona { Name = nombre, dpi = dpi, date = fecha, direccion = direccion });
+                    names2.Add(dpi, new Persona { Name = nombre, dpi = dpi, date = fecha, direccion = direccion, compania1 = compania1 });
                     persona.Name = nombre;
                     persona.dpi = dpi;
                     persona.date = fecha;
@@ -97,7 +109,10 @@ namespace Lab1ED2
                     Console.WriteLine("Actualizado");
                     Console.WriteLine(persona.Name);
                     Console.WriteLine(persona.dpi);
-                  
+                    Console.WriteLine(persona.compania1);
+                    Console.WriteLine(compania1);
+
+
                     conta2++;
 
 
@@ -113,7 +128,6 @@ namespace Lab1ED2
 
                     names2.Remove(dpi);
                     conta3++;
-                    persona.captura(nombre, dpi, fecha, direccion);
 
 
 
@@ -129,7 +143,7 @@ namespace Lab1ED2
             {
                 Console.WriteLine("buscar persona por nombre o dpi");
                 dpi1 = Console.ReadLine();
-                
+
                 int contador = 0;
                 string nombres = "";
 
@@ -148,18 +162,35 @@ namespace Lab1ED2
 
                 }
 
-                
-                
+
+
                 string carpeta = @"C:\Salidas";
                 try
                 {
-                    if(Directory.Exists(carpeta))
+                    if (Directory.Exists(carpeta))
                     {
-                        
+
                     }
                     else
                     {
                         Directory.CreateDirectory(carpeta);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                string carpeta2 = @"C:\Salidas\Temp";
+                try
+                {
+                    if (Directory.Exists(carpeta2))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(carpeta2);
                     }
                 }
                 catch (Exception)
@@ -194,15 +225,15 @@ namespace Lab1ED2
                     Console.WriteLine("Archivo no Creado");
                 }
 
-                Console.WriteLine(contador);
+
 
                 foreach (var x in names2.Values)
                 {
 
                     if (x.Name == dpi1 || x.dpi == dpi1)
                     {
-                        Console.WriteLine("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + "}");
-                        salida += ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + "}" + "\n");
+                        Console.WriteLine("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" +"]" +"}");
+                        salida += ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\""+ ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" + "]" + "}" + "\n");
 
                     }
 
@@ -211,7 +242,7 @@ namespace Lab1ED2
                 string path = @"C:\Salidas\" + dpi1 + "output.json";
                 try
                 {
-                    // Create the file, or overwrite if the file exists.
+                    // Create the file, or overwrite if the file exis
                     using (FileStream fs = File.Create(path))
                     {
                         byte[] info = new UTF8Encoding(true).GetBytes(salida);
@@ -225,7 +256,7 @@ namespace Lab1ED2
                         string s = "";
                         while ((s = sr.ReadLine()) != null)
                         {
-                            
+
                         }
                     }
                 }
@@ -234,12 +265,114 @@ namespace Lab1ED2
                 {
                     Console.WriteLine("Archivo no Creado");
                 }
+;
 
-                CompresorHuff tester = new CompresorHuff(1024);
-                tester.Comprimir(path,"C:\\","DpiComprimido"+dpi1);
-                tester.Descomprimir("C:\\DpiComprimido"+dpi1+".huff","C:\\DpiDescomprimido"+dpi1);
-                
                 Console.ReadKey();
+
+                try
+                {
+
+
+
+                    string temp = @"C:\Salidas\Temp\temp.txt";
+
+                    foreach (var x in names2.Values)
+                    {
+
+                        if (dpi1 == x.dpi)
+                        {
+                            string salidatemp = x.compania1;
+                            try
+                            {
+                                // Create the file, or overwrite if the file exis
+                                using (FileStream fs = File.Create(temp))
+                                {
+                                    byte[] info = new UTF8Encoding(true).GetBytes(salidatemp);
+                                    // Add some information to the file.
+                                    fs.Write(info, 0, info.Length);
+                                }
+
+                                // Open the stream and read it back.
+                                using (StreamReader sr = File.OpenText(temp))
+                                {
+                                    string s = "";
+                                    while ((s = sr.ReadLine()) != null)
+                                    {
+
+                                    }
+                                }
+                            }
+
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Archivo no Creado");
+                            }
+
+                        }
+
+                    }
+                    System.IO.StreamReader archivo2 = new System.IO.StreamReader(@temp);
+
+                    while ((linea2 = archivo2.ReadLine()) != null)
+                    {
+                        fila2 = linea2.Split(separador);
+
+                        for (int i = 0; i < fila2.Length; i++)
+                        {
+                            string compania = fila2[i];
+
+                            string direccion = dpi1 + compania;
+                            string tempc = @"C:\Salidas\Temp\" + compania + ".txt";
+
+
+
+                            // Create the file, or overwrite if the file exis
+                            using (FileStream fs = File.Create(tempc))
+                            {
+                                byte[] info = new UTF8Encoding(true).GetBytes(direccion);
+                                // Add some information to the file.
+                                fs.Write(info, 0, info.Length);
+                            }
+
+                            // Open the stream and read it back.
+                            using (StreamReader sr = File.OpenText(tempc))
+                            {
+                                string s = "";
+                                while ((s = sr.ReadLine()) != null)
+                                {
+
+                                }
+                            }
+
+
+                        }
+
+                        tamanioFila2 = fila2.Length;
+                        Console.WriteLine(fila2.Length);
+
+                    }
+
+
+                   
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                DirectoryInfo di = new DirectoryInfo(@"C:\Salidas\Temp");
+                FileInfo[] files = di.GetFiles("*.txt");
+                string str = "";
+                foreach (FileInfo file in files)
+                {
+                    string filess = file.FullName;
+                    CompresorHuff tester = new CompresorHuff(1024);
+                    Console.WriteLine(filess);
+                    Comprimir(filess, @"C:\", dpi1);
+                    
+                    
+                }
+
 
                 Console.WriteLine("desea realizar otra busqueda s/n");
                 string seguir = Console.ReadLine();
@@ -252,11 +385,35 @@ namespace Lab1ED2
                 {
                     busqueda = true;
                 }
-                
+
             }
+            
+
+
+
             return salida;
+
         }
 
+
+
+
+
+        public void Comprimir(string tempora,string direccion,string direccion2)
+        {
+            
+            CompresorHuff tester = new CompresorHuff(1024);
+            tester.Comprimir(tempora, direccion,direccion2);
+           
             
         }
+
+   
+
+
+        
     }
+}
+
+
+    
