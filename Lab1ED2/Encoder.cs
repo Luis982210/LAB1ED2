@@ -80,7 +80,7 @@ namespace Lab1ED2
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Mensaje:");
-            Console.WriteLine();
+           
             
 
            message = "";
@@ -139,7 +139,7 @@ namespace Lab1ED2
             }
             bw.Close();
             
-            Console.ReadKey();
+            
            
             
 

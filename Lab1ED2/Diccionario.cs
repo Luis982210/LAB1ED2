@@ -12,6 +12,7 @@ namespace Lab1ED2
         {
             string ubicacionArchivo = @"";
 
+            String Descomprimir = "";
 
             string separador = ",";
             Persona persona;
@@ -308,6 +309,12 @@ namespace Lab1ED2
                     }
                     System.IO.StreamReader archivo2 = new System.IO.StreamReader(@temp);
 
+                    Console.WriteLine("Desea descomprimir S/N");
+                    Descomprimir=Console.ReadLine();
+
+                   
+                        
+
                     try
                     {
 
@@ -323,7 +330,10 @@ namespace Lab1ED2
 
                                 string direccion = compania + dpi1;
                                 Encoder encoder = new Encoder(direccion, compania);
-                                Decoder decoder = new Decoder(encoder.codes, encoder.message);
+                                if (Descomprimir == "S")
+                                {
+                                    Decoder decoder = new Decoder(encoder.codes, encoder.message);
+                                }
                                 string hola = encoder.valor;
                                 Console.WriteLine(hola);
                                 Console.ReadKey();
