@@ -14,7 +14,7 @@ namespace Lab1ED2
         public string direccion { get; set; }
 
         public string compania1 { get; set; }
-        public string compania2 { get; set; }
+       
         
 
 

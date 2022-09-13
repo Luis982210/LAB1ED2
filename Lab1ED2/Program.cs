@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 public class Program
 {
 
@@ -14,7 +15,8 @@ public class Program
     {
         Diccionario diccionario = new Diccionario();
         diccionario.dicc();
-       
+        
+
     }
 }
 

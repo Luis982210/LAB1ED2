@@ -20,10 +20,14 @@ namespace Lab1ED2
             string salida = "";
             string linea;
             string linea2;
+            string linea3;
             char[] charsToTrim1 = { '"', '{', '}', ':' };
             string[] fila2;
             string[] charsToRemove = new string[] { ";", "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies" };
             string[] charsToRemove2 = new string[] { "\"\"", "\"" };
+            string[] comprimir;
+            string total = "";
+            string total2 = "";
 
             Dictionary<string, Persona> names2 = new Dictionary<string, Persona>();
 
@@ -232,8 +236,8 @@ namespace Lab1ED2
 
                     if (x.Name == dpi1 || x.dpi == dpi1)
                     {
-                        Console.WriteLine("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" +"]" +"}");
-                        salida += ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\""+ ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" + "]" + "}" + "\n");
+                        Console.WriteLine("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" + "]" + "}");
+                        salida += ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + ", " + "\"" + "companies" + "\"" + ":" + "[" + "\"" + x.compania1 + "\"" + "]" + "}" + "\n");
 
                     }
 
@@ -251,14 +255,7 @@ namespace Lab1ED2
                     }
 
                     // Open the stream and read it back.
-                    using (StreamReader sr = File.OpenText(path))
-                    {
-                        string s = "";
-                        while ((s = sr.ReadLine()) != null)
-                        {
 
-                        }
-                    }
                 }
 
                 catch (Exception ex)
@@ -271,9 +268,6 @@ namespace Lab1ED2
 
                 try
                 {
-
-
-
                     string temp = @"C:\Salidas\Temp\temp.txt";
 
                     foreach (var x in names2.Values)
@@ -301,6 +295,7 @@ namespace Lab1ED2
 
                                     }
                                 }
+
                             }
 
                             catch (Exception ex)
@@ -313,65 +308,91 @@ namespace Lab1ED2
                     }
                     System.IO.StreamReader archivo2 = new System.IO.StreamReader(@temp);
 
-                    while ((linea2 = archivo2.ReadLine()) != null)
+                    try
                     {
-                        fila2 = linea2.Split(separador);
 
-                        for (int i = 0; i < fila2.Length; i++)
+
+                        while ((linea2 = archivo2.ReadLine()) != null)
                         {
-                            string compania = fila2[i];
+                            fila2 = linea2.Split(separador);
 
-                            string direccion = dpi1 + compania;
-                            string tempc = @"C:\Salidas\Temp\" + compania + ".txt";
-
-
-
-                            // Create the file, or overwrite if the file exis
-                            using (FileStream fs = File.Create(tempc))
+                            for (int i = 0; i < fila2.Length; i++)
                             {
-                                byte[] info = new UTF8Encoding(true).GetBytes(direccion);
-                                // Add some information to the file.
-                                fs.Write(info, 0, info.Length);
-                            }
+                                string compania = fila2[i];
 
-                            // Open the stream and read it back.
-                            using (StreamReader sr = File.OpenText(tempc))
-                            {
-                                string s = "";
-                                while ((s = sr.ReadLine()) != null)
+
+                                string direccion = compania + dpi1;
+                                Encoder encoder = new Encoder(direccion, compania);
+                                Decoder decoder = new Decoder(encoder.codes, encoder.message);
+                                string hola = encoder.valor;
+                                Console.WriteLine(hola);
+                                Console.ReadKey();
+                                System.IO.StreamReader archivo3 = new System.IO.StreamReader(@"C:/" + fila2[i] + "salidas.txt");
+                                while ((linea3 = archivo3.ReadLine()) != null)
                                 {
+                                    total += "\"" + fila2[i] + "\"" + " :" + "\"" + linea3 + "\"" + ",";
 
                                 }
+                                archivo3.Close();
+
+                                string tempc = @"C:\Salidas\Temp\" + compania.TrimStart() + ".txt";
+
+
+
+                                // Create the file, or overwrite if the file exis
+                                using (FileStream fs = File.Create(tempc))
+                                {
+                                    byte[] info = new UTF8Encoding(true).GetBytes(direccion);
+                                    // Add some information to the file.
+                                    fs.Write(info, 0, info.Length);
+                                }
+
                             }
+
+                            tamanioFila2 = fila2.Length;
 
 
                         }
 
-                        tamanioFila2 = fila2.Length;
-                        Console.WriteLine(fila2.Length);
 
                     }
 
+                    catch (Exception ex)
+                    {
 
-                   
+                        Console.WriteLine(ex.Message);
+                    }
+
                 }
                 catch (Exception)
                 {
 
                     throw;
                 }
-                DirectoryInfo di = new DirectoryInfo(@"C:\Salidas\Temp");
-                FileInfo[] files = di.GetFiles("*.txt");
-                string str = "";
-                foreach (FileInfo file in files)
+
+                Console.WriteLine("comprimiendo");
+
+
+                foreach (var x in names2.Values)
                 {
-                    string filess = file.FullName;
-                    CompresorHuff tester = new CompresorHuff(1024);
-                    Console.WriteLine(filess);
-                    Comprimir(filess, @"C:\", dpi1);
-                    
-                    
+
+                    if (x.dpi == dpi1)
+                    {
+                        total2.Trim('\n');
+                        total2 += ("{" + "\"" + "name" + "\"" + ":" + "\"" + x.Name + "\"" + ", " + "\"" + "dpi" + "\"" + ":" + "\"" + x.dpi + "\"" + ", " + "\"" + "dateBirth" + "\"" + ":" + "\"" + x.date + "\"" + ", " + "\"" + "address" + "\"" + ":" + "\"" + x.direccion + "\"" + ", " + "\"" + "companies" + "\"" + ":" + "[" + total + "\"" + "]" + "}" + "\n");
+
+
+                    }
+
                 }
+               using (FileStream fs = File.Create(@"C:\SalidaComprimida"+dpi1+".txt"))
+               {
+                    byte[] info = new UTF8Encoding(true).GetBytes(total2);
+                   // Add some information to the file.
+                    fs.Write(info, 0, info.Length);
+                }
+
+
 
 
                 Console.WriteLine("desea realizar otra busqueda s/n");
@@ -380,6 +401,8 @@ namespace Lab1ED2
                 {
                     busqueda = false;
                     salida = "";
+                    total2 = "";
+                    total = "";
                 }
                 else
                 {
@@ -387,9 +410,9 @@ namespace Lab1ED2
                 }
 
             }
-            
 
 
+          
 
             return salida;
 
@@ -398,20 +421,6 @@ namespace Lab1ED2
 
 
 
-
-        public void Comprimir(string tempora,string direccion,string direccion2)
-        {
-            
-            CompresorHuff tester = new CompresorHuff(1024);
-            tester.Comprimir(tempora, direccion,direccion2);
-           
-            
-        }
-
-   
-
-
-        
     }
 }
 
