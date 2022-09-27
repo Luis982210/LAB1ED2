@@ -78,6 +78,8 @@ namespace Lab1ED2
                 codes.Add(code);
             }
             Console.WriteLine();
+
+
             Console.WriteLine();
             Console.WriteLine("Mensaje:");
            
@@ -101,7 +103,7 @@ namespace Lab1ED2
 
             byte[] bufferBytesCompresion;
             String[] bufferBytesescritura;
-            BinaryWriter bw = new BinaryWriter(new FileStream(@"C:\"+compania+"salidas.txt", FileMode.OpenOrCreate));
+            BinaryWriter bw = new BinaryWriter(new FileStream(@"C:\Salidas\Temporal\"+compania+"salidas.txt", FileMode.OpenOrCreate));
             int numbytes = valor.Length / 8;
            int  residuoCadena = valor.Length % 8;
             bufferBytesCompresion = new byte[numbytes];

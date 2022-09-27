@@ -24,8 +24,9 @@ namespace Lab1ED2
             string linea3;
             char[] charsToTrim1 = { '"', '{', '}', ':' };
             string[] fila2;
-            string[] charsToRemove = new string[] { ";", "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies" };
+            string[] charsToRemove = new string[] { "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies",",," };
             string[] charsToRemove2 = new string[] { "\"\"", "\"" };
+            string[] charsToRemove4 = new string[] { "C:","Users","luis1","Downloads","\\","inputs","REC -" };
             string[] comprimir;
             string total = "";
             string total2 = "";
@@ -62,6 +63,9 @@ namespace Lab1ED2
                 foreach (var c in charsToRemove)
                 {
                     linea = linea.Replace(c, string.Empty);
+                    linea= linea.Replace("INSERT;","INSERT," );
+                    linea = linea.Replace("DELETE;", "DELETE,");
+                    linea = linea.Replace("PATCH;", "PATCH,");
                 }
 
                 
@@ -334,10 +338,11 @@ namespace Lab1ED2
                                 {
                                     Decoder decoder = new Decoder(encoder.codes, encoder.message);
                                 }
+                                
                                 string hola = encoder.valor;
                                 Console.WriteLine(hola);
-                                Console.ReadKey();
-                                System.IO.StreamReader archivo3 = new System.IO.StreamReader(@"C:/" + fila2[i] + "salidas.txt");
+                                
+                                System.IO.StreamReader archivo3 = new System.IO.StreamReader(@"C:\Salidas\Temporal\" + fila2[i] + "salidas.txt");
                                 while ((linea3 = archivo3.ReadLine()) != null)
                                 {
                                     total += "\"" + fila2[i] + "\"" + " :" + "\"" + linea3 + "\"" + ",";
@@ -403,9 +408,7 @@ namespace Lab1ED2
                 }
 
 
-
-
-                Console.WriteLine("desea realizar otra busqueda s/n");
+                
                 string seguir = Console.ReadLine();
                 if (seguir == "s")
                 {
@@ -414,15 +417,65 @@ namespace Lab1ED2
                     total2 = "";
                     total = "";
                 }
+               
                 else
                 {
                     busqueda = true;
+                   
                 }
 
             }
 
+            if (busqueda == true)
+            {
+                Ordenar();
+            }
 
-          
+            void Ordenar()
+            {
+                string cartapath = "";
+
+                Console.WriteLine(" desea realizar una compresion de cartas de recomendacion");
+
+                Console.WriteLine("ingrese el path de la carta a leer");
+                cartapath = Console.ReadLine();
+
+                try
+                {
+                    foreach (var c in charsToRemove2)
+                    {
+                        cartapath = cartapath.Replace(c, string.Empty);
+                    }
+                    CompresorHuff compresor = new CompresorHuff(1024);
+
+                    string dirr = cartapath;
+                    foreach (var c in charsToRemove4)
+                    {
+                        dirr = dirr.Replace(c, string.Empty);
+                    }
+                    compresor.Comprimir(@cartapath, @"C:\Compressed\", "Compressed-"+dirr);
+                    Console.WriteLine(dirr);
+                    compresor.Descomprimir(@"C:\Compressed\Compressed-" + dirr + ".txt", @"C:\Decompressed\Decompressed-");
+                    string seguircartas = "";
+                    Console.WriteLine("Comprimir mas cartas?");
+                    seguircartas = Console.ReadLine();
+                    if(seguircartas=="S")
+                    {
+                        Ordenar();
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
 
             return salida;
 
