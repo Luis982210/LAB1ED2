@@ -15,7 +15,9 @@ public class Program
     {
         Diccionario diccionario = new Diccionario();
         diccionario.dicc();
+
         
+       
 
     }
 }
