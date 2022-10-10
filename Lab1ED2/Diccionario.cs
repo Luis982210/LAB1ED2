@@ -26,10 +26,9 @@ namespace Lab1ED2
             string[] fila2;
             string[] charsToRemove = new string[] { ";", "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies" };
             string[] charsToRemove2 = new string[] { "\"\"", "\"" };
-<<<<<<< Updated upstream
-=======
+
             string[] charsToRemove4 = new string[] { "C:","Users","luis1","Downloads","\\","inputs","REC -","crypted-","crypted"};
->>>>>>> Stashed changes
+
             string[] comprimir;
             string total = "";
             string total2 = "";
