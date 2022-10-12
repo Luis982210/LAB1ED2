@@ -26,7 +26,10 @@ namespace Lab1ED2
             string[] fila2;
             string[] charsToRemove = new string[] { "name", "\"\"", "\"", "dpi", ":", "datebirth", "address", "{", "}", "]", "companies",",," };
             string[] charsToRemove2 = new string[] { "\"\"", "\"" };
-            string[] charsToRemove4 = new string[] { "C:","Users","luis1","Downloads","\\","inputs","REC -" };
+
+            string[] charsToRemove4 = new string[] { "C:","Users","luis1","Downloads","\\","inputs","REC -","crypted-","crypted"};
+
+
             string[] comprimir;
             string total = "";
             string total2 = "";
@@ -190,6 +193,7 @@ namespace Lab1ED2
 
                     throw;
                 }
+
                 string carpeta2 = @"C:\Salidas\Temp";
                 try
                 {
@@ -200,6 +204,74 @@ namespace Lab1ED2
                     else
                     {
                         Directory.CreateDirectory(carpeta2);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                string carpeta3 = @"C:\Cypher";
+                try
+                {
+                    if (Directory.Exists(carpeta3))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(carpeta3);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                string carpeta4 = @"C:\Descypher";
+                try
+                {
+                    if (Directory.Exists(carpeta4))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(carpeta4);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                string carpeta5 = @"C:\Compressed";
+                try
+                {
+                    if (Directory.Exists(carpeta5))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(carpeta5);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                string carpeta6 = @"C:\Decompressed";
+                try
+                {
+                    if (Directory.Exists(carpeta6))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(carpeta6);
                     }
                 }
                 catch (Exception)
@@ -400,7 +472,7 @@ namespace Lab1ED2
                     }
 
                 }
-               using (FileStream fs = File.Create(@"C:\SalidaComprimida"+dpi1+".txt"))
+               using (FileStream fs = File.Create(@"C:\Salidas\SalidaComprimida"+dpi1+".txt"))
                {
                     byte[] info = new UTF8Encoding(true).GetBytes(total2);
                    // Add some information to the file.
@@ -425,6 +497,15 @@ namespace Lab1ED2
                 }
 
             }
+
+
+            if (busqueda == true)
+            {
+                Ordenar();
+            }
+
+           
+
 
             if (busqueda == true)
             {
@@ -462,6 +543,54 @@ namespace Lab1ED2
                     if(seguircartas=="S")
                     {
                         Ordenar();
+                    }
+                    else
+                    {
+                        Ordenar2();
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            void Ordenar2()
+            {
+                string cartapath = "";
+
+                Console.WriteLine(" desea realizar un cifrado de chats");
+
+                Console.WriteLine("ingrese el path de la carta a leer");
+                cartapath = Console.ReadLine();
+
+                try
+                {
+                    foreach (var c in charsToRemove2)
+                    {
+                        cartapath = cartapath.Replace(c, string.Empty);
+                    }
+                    CifradorCesar cifrado = new CifradorCesar(1024);
+                    string clave = "Estructuras";
+                    //Console.WriteLine("clave");
+                    //clave = Console.ReadLine();
+
+                    string dirr = cartapath;
+                    foreach (var c in charsToRemove4)
+                    {
+                        dirr = dirr.Replace(c, string.Empty);
+                    }
+                    cifrado.Cifrar(@cartapath, @"C:\Cypher\",clave, "Cypher-" + dirr);
+                    Console.WriteLine(dirr);
+                    cifrado.Decifrar(@"C:\Cypher\Cypher-" + dirr + ".txt", @"C:\Descypher\",clave, "Descypher-"+dirr);
+                    string seguircartas = "";
+                    Console.WriteLine("Cifrar mas cartas?");
+                    seguircartas = Console.ReadLine();
+                    if (seguircartas == "S")
+                    {
+                        Ordenar2();
                     }
                     else
                     {
