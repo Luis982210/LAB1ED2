@@ -211,7 +211,7 @@ namespace Lab1ED2
 
                     throw;
                 }
-                string carpeta3 = @"C:\Cypher";
+                string carpeta3 = @"C:\Crypted";
                 try
                 {
                     if (Directory.Exists(carpeta3))
@@ -228,7 +228,7 @@ namespace Lab1ED2
 
                     throw;
                 }
-                string carpeta4 = @"C:\Descypher";
+                string carpeta4 = @"C:\Decrypted";
                 try
                 {
                     if (Directory.Exists(carpeta4))
@@ -574,17 +574,17 @@ namespace Lab1ED2
                     }
                     CifradorCesar cifrado = new CifradorCesar(1024);
                     string clave = "Estructuras";
-                    //Console.WriteLine("clave");
-                    //clave = Console.ReadLine();
+                    Console.WriteLine("clave");
+                    clave = Console.ReadLine();
 
                     string dirr = cartapath;
                     foreach (var c in charsToRemove4)
                     {
                         dirr = dirr.Replace(c, string.Empty);
                     }
-                    cifrado.Cifrar(@cartapath, @"C:\Cypher\",clave, "Cypher-" + dirr);
+                    cifrado.Cifrar(@cartapath, @"C:\Crypted\",clave, "Crypted-" + dirr);
                     Console.WriteLine(dirr);
-                    cifrado.Decifrar(@"C:\Cypher\Cypher-" + dirr + ".txt", @"C:\Descypher\",clave, "Descypher-"+dirr);
+                    cifrado.Decifrar(@"C:\Crypted\Crypted-" + dirr + ".txt", @"C:\Decrypted\",clave, "Decrypted-"+dirr);
                     string seguircartas = "";
                     Console.WriteLine("Cifrar mas cartas?");
                     seguircartas = Console.ReadLine();
